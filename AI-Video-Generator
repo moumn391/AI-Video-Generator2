@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Video Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .video-item {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+        .subscription {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffd700;
+            border-radius: 5px;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        .dark-mode .container {
+            background: #1e1e1e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Video Generator</h1>
+        <p>Generate high-quality AI-powered videos in seconds!</p>
+        
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        
+        <div id="auth">
+            <button onclick="loginWithGoogle()">Login with Google</button>
+            <button onclick="loginWithFacebook()">Login with Facebook</button>
+            <button onclick="loginWithTwitter()">Login with Twitter</button>
+            <button onclick="loginWithApple()">Login with Apple</button>
+            <input type="text" id="username" placeholder="Enter your username">
+            <input type="password" id="password" placeholder="Enter your password">
+            <button onclick="login()">Login</button>
+            <button onclick="register()">Register</button>
+        </div>
+        
+        <div id="subscription" class="subscription" style="display: none;">
+            <h2>Upgrade to Premium</h2>
+            <p>Get unlimited video generation with our premium plan.</p>
+            <button onclick="subscribe()">Subscribe Now</button>
+        </div>
+        
+        <div id="videoSection" style="display: none;">
+            <input type="text" id="videoPrompt" placeholder="Enter your video idea...">
+            <button onclick="generateVideo()">Generate Video</button>
+            <p id="output" style="margin-top: 20px;"></p>
+            <div id="videoList"></div>
+        </div>
+        
+        <div id="analytics" style="display: none;">
+            <h2>Video Analytics</h2>
+            <p>View insights about your generated videos.</p>
+            <button onclick="viewAnalytics()">View Analytics</button>
+        </div>
+
+        <div id="store" style="display: none;">
+            <h2>AI Video Store</h2>
+            <p>Buy and sell AI-generated video templates.</p>
+            <button onclick="openStore()">Visit Store</button>
+        </div>
+    </div>
+
+    <script>
+        let users = {};
+        let videos = [];
+        let isPremium = false;
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function loginWithGoogle() {
+            alert("Google login feature coming soon!");
+        }
+
+        function loginWithFacebook() {
+            alert("Facebook login feature coming soon!");
+        }
+
+        function loginWithTwitter() {
+            alert("Twitter login feature coming soon!");
+        }
+
+        function loginWithApple() {
+            alert("Apple login feature coming soon!");
+        }
+
+        async function fetchUsers() {
+            let response = await fetch('/api/getUsers');
+            users = await response.json();
+        }
+
+        async function fetchVideos() {
+            let response = await fetch('/api/getVideos');
+            videos = await response.json();
+            displayVideos();
+        }
+
+        async function login() {
+            let username = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
+            let response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            let result = await response.json();
+            if (result.success) {
+                alert("Login successful!");
+                document.getElementById('auth').style.display = 'none';
+                document.getElementById('videoSection').style.display = 'block';
+                document.getElementById('analytics').style.display = 'block';
+                document.getElementById('store').style.display = 'block';
+                isPremium = result.isPremium;
+                if (!isPremium) {
+                    document.getElementById('subscription').style.display = 'block';
+                }
+                fetchVideos();
+            } else {
+                alert("Invalid login.");
+            }
+        }
+
+        function viewAnalytics() {
+            alert("Analytics feature coming soon!");
+        }
+
+        function openStore() {
+            alert("AI Video Store feature coming soon!");
+        }
+
+        fetchUsers();
+    </script>
+</body>
+</html>
